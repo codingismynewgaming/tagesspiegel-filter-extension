@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "Tagesspiegel Customizer",
+  "version": "1.0.0",
+  "description": "Personalize your Tagesspiegel reading experience - customize font sizes and hide sections",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://www.tagesspiegel.de/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "48": "icons/icon-48.png",
+      "96": "icons/icon-96.png"
+    },
+    "default_title": "Tagesspiegel Customizer"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.tagesspiegel.de/*"],
+      "js": ["content/content.js"],
+      "css": ["content/styles.css"],
+      "run_at": "document_start"
+    }
+  ],
+  "icons": {
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "tagesspiegel-customizer@localhost",
+      "strict_min_version": "121.0"
+    },
+    "gecko_android": {
+      "strict_min_version": "128.0"
+    }
+  }
+}

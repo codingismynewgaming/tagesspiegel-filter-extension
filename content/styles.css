@@ -1,0 +1,6 @@
+/* Tagesspiegel Filter - Injected Styles */
+
+/* Hide sections marked by customizer */
+[data-hidden-by-customizer] {
+  display: none !important;
+}
