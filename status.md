@@ -1,7 +1,8 @@
 # Tagesspiegel Filter Extension - Status 📊
 
-**Last Updated:** 25. Februar 2026
+**Last Updated:** 25. Februar 2026 - 21:55 UTC
 **Current Version:** v1.0.0 - INITIAL RELEASE 🎉
+**Build Status:** ✅ READY FOR MOZILLA SUBMISSION
 
 ---
 
@@ -13,10 +14,11 @@
 
 **Major Changes:**
 - ✅ **Font size feature removed** - Extension now focuses solely on section hiding
-- ✅ **New professional icons** - Transparent PNG with white "T" and black border
+- ✅ **New professional icons** - Transparent SVG with white "T" and black border
 - ✅ **Renamed to "Tagesspiegel Filter"** - Clearer name reflecting functionality
 - ✅ **GitHub repository created** - Public repo at `codingismynewgaming/tagesspiegel-filter-extension`
 - ✅ **First official release** - v1.0.0 available on GitHub Releases
+- ✅ **data_collection_permissions added** - Mozilla requirement fixed (`"required": ["none"]`)
 
 ### Features
 
@@ -39,18 +41,21 @@
 **New Files:**
 - `DISCLAIMER.md` - German legal disclaimer and privacy policy
 - `.gitignore` - Git ignore rules
+- `.web-ext-config.cjs` - web-ext build configuration
 - `icons/icon-48.svg` - New transparent icon (48x48)
 - `icons/icon-96.svg` - New transparent icon (96x96)
+- `extension-source/` - Clean build source directory
 - `web-ext-artifacts/tagesspiegel_filter-1.0.0.xpi` - Release package
 
 **Updated Files:**
-- `manifest.json` - Renamed app, updated icons, new extension ID
+- `manifest.json` - Renamed app, updated icons, new extension ID, data_collection_permissions
 - `README.md` - Updated documentation
 - `content/content.js` - Removed font size code
 - `popup/popup.js` - Removed font size UI logic
 - `popup/popup.html` - Removed font size HTML
 - `popup/popup.css` - Removed font size styles
 - `content/styles.css` - Simplified (removed font size styles)
+- `status.md` - This file
 
 ### GitHub Repository
 
@@ -61,15 +66,14 @@
 - **Package:** `tagesspiegel_filter-1.0.0.xpi`
 - **Release Notes:** German + English feature list
 
-### Mozilla Add-ons Store Preparation
+### Mozilla Add-ons Store Submission
 
 **XPI Package Location:** `web-ext-artifacts/tagesspiegel_filter-1.0.0.xpi`
 
-**Lint Status:** ✅ Passed (0 errors, 3 informational warnings)
+**Lint Status:** ✅ PASSED (0 errors, 2 informational warnings)
 
-**Warnings (Informational):**
-- `MISSING_DATA_COLLECTION_PERMISSIONS` - Future requirement, not blocking
-- `REMOTE_SCRIPT` (2x) - Standard warning for extensions using external resources
+**Warnings (Informational only - won't block submission):**
+- `REMOTE_SCRIPT` (2x) - SVG icons reference external resources (standard warning)
 
 **XPI Contents (Clean - 10 files, ~50KB):**
 ```
@@ -83,16 +87,35 @@ popup/popup.css
 popup/popup.js
 ```
 
-**Submission Metadata:** `mozilla-submission.json`
+**manifest.json - data_collection_permissions:**
+```json
+"browser_specific_settings": {
+  "gecko": {
+    "id": "tagesspiegel-filter@codingismynewgaming",
+    "strict_min_version": "140.0",
+    "data_collection_permissions": {
+      "required": ["none"]
+    }
+  },
+  "gecko_android": {
+    "strict_min_version": "142.0"
+  }
+}
+```
 
-**Category:** News
-**License:** MIT
-**Developer:** codingismynewgaming
+**Submission Details:**
+- **Category:** News
+- **License:** MIT
+- **Developer:** codingismynewgaming
+- **Support URL:** https://github.com/codingismynewgaming/tagesspiegel-filter-extension
+
+**Description (English):**
+> Hide unwanted sections on Tagesspiegel.de. Customize your news feed, declutter your reading experience. No tracking, 100% client-side.
 
 ### Icon Design
 
 **Specifications:**
-- **Format:** SVG (scalable)
+- **Format:** SVG (scalable, Mozilla-compatible)
 - **Background:** Transparent
 - **Letter:** White "T" with black outline
 - **Font:** Arial, weight 900
@@ -100,7 +123,7 @@ popup/popup.js
 
 **Design:**
 ```svg
-<text x="24" y="36" font-family="Arial" font-size="36" font-weight="900" 
+<text x="24" y="36" font-family="Arial" font-size="36" font-weight="900"
       fill="white" text-anchor="middle" stroke="black" stroke-width="3">T</text>
 ```
 
@@ -115,12 +138,13 @@ popup/popup.js
 ### Testing
 
 **Validation Executed:**
-- ✅ `web-ext lint` - 0 errors
+- ✅ `web-ext lint` - 0 errors, 2 warnings (informational)
 - ✅ `node --check content/content.js` - Syntax valid
 - ✅ `node --check popup/popup.js` - Syntax valid
 - ✅ Git commit - Successful
 - ✅ GitHub push - Successful
 - ✅ Release creation - Successful
+- ✅ XPI upload to GitHub Releases - Successful
 
 ### Installation Instructions
 
@@ -140,11 +164,16 @@ popup/popup.js
 
 ## 📝 Next Steps
 
-### For Mozilla Add-ons Submission
-1. Submit XPI to [Firefox Add-ons Developer Hub](https://addons.mozilla.org/developers/)
-2. Fill in listing details (category: News)
-3. Add screenshots (optional)
-4. Submit for review
+### For Mozilla Add-ons Submission ✅ READY
+1. Go to [Firefox Add-ons Developer Hub](https://addons.mozilla.org/developers/)
+2. Create new submission
+3. Upload `web-ext-artifacts/tagesspiegel_filter-1.0.0.xpi`
+4. Fill in listing details:
+   - **Name:** Tagesspiegel Filter
+   - **Category:** News
+   - **Description:** Hide unwanted sections on Tagesspiegel.de. Customize your news feed, declutter your reading experience. No tracking, 100% client-side.
+   - **License:** MIT
+5. Submit for review
 
 ### Future Enhancements (Optional)
 - [ ] Add more icon sizes for different contexts
@@ -160,24 +189,37 @@ popup/popup.js
 | MCP/Skill | How Used |
 |-----------|----------|
 | `mcp__rust-mcp-filesystem__` | File read/write/edit operations |
-| `run_shell_command` | web-ext build/lint, gh CLI, curl API calls |
+| `run_shell_command` | web-ext build/lint, gh CLI, tar, robocopy |
+| `web_fetch` | Mozilla docs for data_collection_permissions format |
 | `skill: html-to-image` | Initial icon generation attempts |
 | `skill: generate-image` | Checked for icon generation |
 
 ---
 
-**Bro, the release is DONE!** 🎉🚀
+## 📋 Session Summary
 
 **What was accomplished:**
 1. ✅ Removed font size feature completely
-2. ✅ Created new transparent icons with white T + black border
+2. ✅ Created new transparent SVG icons with white T + black border
 3. ✅ Renamed app to "Tagesspiegel Filter"
-4. ✅ Created German legal disclaimer
-5. ✅ Built XPI for Mozilla Add-ons (lint passed!)
-6. ✅ Created GitHub repo: `tagesspiegel-filter-extension`
-7. ✅ Created release v1.0.0 with XPI attachment
+4. ✅ Created German legal disclaimer (DISCLAIMER.md)
+5. ✅ Built clean XPI for Mozilla Add-ons (10 files, ~50KB)
+6. ✅ Fixed `data_collection_permissions` with `"required": ["none"]`
+7. ✅ Created GitHub repo: `tagesspiegel-filter-extension`
+8. ✅ Created release v1.0.0 with XPI attachment
+9. ✅ Updated .gitignore for clean builds
+10. ✅ Created extension-source/ for minimal builds
+
+**XPI Location:**
+```
+D:\personaldata\vibe-coding-projekte\tagesspiegel-extension\web-ext-artifacts\tagesspiegel_filter-1.0.0.xpi
+```
 
 **GitHub:** https://github.com/codingismynewgaming/tagesspiegel-filter-extension
 **Release:** https://github.com/codingismynewgaming/tagesspiegel-filter-extension/releases/tag/v1.0.0
+
+---
+
+**Bro, the release is 100% DONE and READY!** 🎉🚀
 
 **Ready for Mozilla submission!** 🎯😄
