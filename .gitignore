@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build artifacts
+web-ext-artifacts/
+dist/
+.build/
+
+# Checkpoints
+.checkpoints/
+
+# Logs
+*.log
+
+# Screenshots
+test-screenshot.png
+tmp-fullpage.png
+
+# DOM snapshots
+tagesspiegel-dom-snapshot.json
+tagesspiegel-structure-report.json
+
+# Old builds
+tagesspiegel-customizer.zip
+
+# Env
+.env
+
+# Icon HTML sources
+icons/icon-*-new.html
