@@ -71,6 +71,18 @@
 - `MISSING_DATA_COLLECTION_PERMISSIONS` - Future requirement, not blocking
 - `REMOTE_SCRIPT` (2x) - Standard warning for extensions using external resources
 
+**XPI Contents (Clean - 10 files, ~50KB):**
+```
+manifest.json
+icons/icon-48.svg
+icons/icon-96.svg
+content/content.js
+content/styles.css
+popup/popup.html
+popup/popup.css
+popup/popup.js
+```
+
 **Submission Metadata:** `mozilla-submission.json`
 
 **Category:** News
