@@ -1,17 +1,15 @@
 # Dependencies
-node_modules
+node_modules/
+package.json
+package-lock.json
 
 # Build artifacts
-.build
-.checkpoints
-dist
-web-ext-artifacts
-web-ext-artifacts-clean
-extension-source
-
-# Git
-.git
-.gitignore
+.build/
+.checkpoints/
+dist/
+web-ext-artifacts/
+web-ext-artifacts-clean/
+extension-source/
 
 # Logs
 *.log
@@ -31,26 +29,20 @@ tagesspiegel-customizer.zip
 .env
 
 # Icon HTML sources
-icons/icon-*-new.html
+icons/*-new.html
 icons/*.html
 icons/*.png
-
-# Docs (keep README.md and DISCLAIMER.md)
-PLAN.md
-DETECTION_HIDING_HANDOFF.md
-mozilla-submission.json
-.web-ext-config.cjs
-status.md
-WEB_EXT_ANDROID_NIGHTLY.md
-
-# Package files
-package.json
-package-lock.json
 
 # Debug
 debug-bookmarklet.js
 find-missing-sections.js
 
-# Directories
-background
--p
+# Extra documentation & planner files
+PLAN.md
+status.md
+DETECTION_HIDING_HANDOFF.md
+WEB_EXT_ANDROID_NIGHTLY.md
+mozilla-submission.json
+
+# Old directories
+-p/
