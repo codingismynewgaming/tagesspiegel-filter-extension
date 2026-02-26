@@ -37,9 +37,11 @@ icons/*.png
 debug-bookmarklet.js
 find-missing-sections.js
 
-# Extra documentation & planner files
-PLAN.md
+
+
+# Development / Planning (Local Only)
 status.md
+PLAN.md
 DETECTION_HIDING_HANDOFF.md
 WEB_EXT_ANDROID_NIGHTLY.md
 mozilla-submission.json
