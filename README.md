@@ -10,18 +10,6 @@ Der **Tagesspiegel Filter** ist eine kleine, aber feine Browser-Erweiterung für
 - **Dein Style:** Die Erweiterung merkt sich deine Einstellungen automatisch – auch wenn du dich mit deinem Firefox-Konto anmeldest.
 - **Privatsphäre an erster Stelle:** Keine Werbung, kein Tracking, keine Datensammlung. Alles passiert nur in deinem Browser.
 
-## So installierst du den Filter 🛠️
-
-### Firefox Desktop
-1. Lade die `.xpi` Datei aus den [Releases](https://github.com/codingismynewgaming/tagesspiegel-filter-extension/releases) herunter.
-2. Öffne Firefox und navigiere zu `about:addons`.
-3. Klicke auf das Zahnrad-Icon und wähle "Add-on aus Datei installieren...".
-4. Wähle die heruntergeladene `.xpi` Datei aus.
-5. Bestätige die Installation – fertig! 🎉
-
-### Firefox Android
-Für die Nutzung auf dem Smartphone (Firefox Nightly) schau dir bitte die separate Anleitung an: `WEB_EXT_ANDROID_NIGHTLY.md`.
-
 ## Nutzung 📖
 Klicke einfach auf das kleine "T" in deiner Browser-Leiste. Dort kannst du mit Checkboxen entscheiden, was du sehen willst und was nicht. Die Änderungen werden sofort aktiv!
 
