@@ -16,7 +16,8 @@
 - ✅ **Font size feature removed** - Extension now focuses solely on section hiding
 - ✅ **New professional icons** - Transparent SVG with white "T" and black border
 - ✅ **Renamed to "Tagesspiegel Filter"** - Clearer name reflecting functionality
-- ✅ **README.md updated** - More user-friendly, added "About" section, integrated disclaimer
+- ✅ **README.md updated** - Removed installation instructions (unsigned XPI)
+- ✅ **GitHub Cleaned** - Deleted v1.0.0 release and tag (unsigned XPI)
 - ✅ **GitHub repo prepared** - Ready for better public presentation
 - ✅ **data_collection_permissions added** - Mozilla requirement fixed (`"required": ["none"]`)
 
