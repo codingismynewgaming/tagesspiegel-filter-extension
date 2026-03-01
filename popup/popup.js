@@ -19,20 +19,71 @@ const FALLBACK_SECTIONS = [
   'Tagesspiegel Plus',
   'Eilmeldung',
   'Kommentare',
-  'Games'
+  'Games',
+  'Tagesspiegel Umfrage',
+  'Aktuelle Prospekte',
+  'Empfohlener redaktioneller Inhalt',
+  'Bezirke-Newsletter',
+  'Opinary',
+  'Weekender',
+  'Mehr zu'
+];
+
+const SPECIAL_SECTION_DEFINITIONS = [
+  {
+    id: 'tagesspiegel-umfrage',
+    label: 'Tagesspiegel Umfrage',
+    matches: (slug) => slug === 'tagesspiegel-umfrage'
+  },
+  {
+    id: 'aktuelle-prospekte',
+    label: 'Aktuelle Prospekte',
+    matches: (slug) => slug === 'aktuelle-prospekte'
+  },
+  {
+    id: 'empfohlener-redaktioneller-inhalt',
+    label: 'Empfohlener redaktioneller Inhalt',
+    matches: (slug) => slug === 'empfohlener-redaktioneller-inhalt'
+  },
+  {
+    id: 'bezirke-newsletter',
+    label: 'Bezirke-Newsletter',
+    matches: (slug) => slug === 'bezirke-newsletter'
+  },
+  {
+    id: 'opinary',
+    label: 'Opinary',
+    matches: (slug) => slug === 'opinary'
+  },
+  {
+    id: 'weekender',
+    label: 'Weekender',
+    matches: (slug) => slug === 'weekender' || slug.startsWith('weekender-')
+  },
+  {
+    id: 'mehr-zu',
+    label: 'Mehr zu',
+    matches: (slug) => slug === 'mehr-zu' || slug.startsWith('mehr-zu-')
+  }
 ];
 
 const DEFAULT_SETTINGS = {
   hiddenSections: [], // legacy labels
-  hiddenSectionIds: [] // canonical IDs
+  hiddenSectionIds: [], // canonical IDs
+  totalHiddenCount: 0,
+  sectionStats: {}
 };
 
 let availableSections = []; // [{ id, label }]
 let hiddenSectionIds = [];
 let hiddenSections = [];
+let totalHiddenCount = 0;
+let sectionStats = {};
 let listenersBound = false;
 
 const sectionsGrid = document.getElementById('sectionsGrid');
+const activeSectionsList = document.getElementById('activeSectionsList');
+const topSectionsList = document.getElementById('topSectionsList');
 
 function normalizeWhitespace(value) {
   return String(value || '').replace(/\s+/g, ' ').trim();
@@ -48,30 +99,84 @@ function slugify(value) {
     .replace(/^-+|-+$/g, '');
 }
 
+function canonicalizeSectionId(value) {
+  const slug = slugify(value);
+  if (!slug) {
+    return '';
+  }
+
+  for (const definition of SPECIAL_SECTION_DEFINITIONS) {
+    if (definition.matches(slug)) {
+      return definition.id;
+    }
+  }
+
+  return slug;
+}
+
+function preferredLabelForSectionId(sectionId, fallbackLabel) {
+  const definition = SPECIAL_SECTION_DEFINITIONS.find((item) => item.id === sectionId);
+  return definition ? definition.label : fallbackLabel;
+}
+
 function dedupeSectionIds(ids) {
-  return Array.from(new Set((ids || []).map((id) => slugify(id)).filter(Boolean)));
+  return Array.from(new Set((ids || []).map((id) => canonicalizeSectionId(id)).filter(Boolean)));
 }
 
 function sectionOptionsFromLabels(labels) {
   const unique = new Map();
   labels.forEach((label, index) => {
     const normalizedLabel = normalizeWhitespace(label);
-    const id = slugify(normalizedLabel);
+    const id = canonicalizeSectionId(normalizedLabel);
     if (!id || unique.has(id)) {
       return;
     }
-    unique.set(id, { id, label: normalizedLabel || id, order: index });
+    unique.set(id, { id, label: preferredLabelForSectionId(id, normalizedLabel || id), order: index });
   });
   return Array.from(unique.values());
 }
 
+function sortSections(a, b) {
+  const aOrder = typeof a.order === 'number' ? a.order : Number.MAX_SAFE_INTEGER;
+  const bOrder = typeof b.order === 'number' ? b.order : Number.MAX_SAFE_INTEGER;
+  if (aOrder !== bOrder) {
+    return aOrder - bOrder;
+  }
+  return a.label.localeCompare(b.label);
+}
+
+function mergeWithFallbackSections(primarySections) {
+  const merged = new Map();
+  (primarySections || []).forEach((section, index) => {
+    if (!section || !section.id) {
+      return;
+    }
+    const order = typeof section.order === 'number' ? section.order : index;
+    merged.set(section.id, { ...section, order });
+  });
+
+  const fallbackSections = sectionOptionsFromLabels(FALLBACK_SECTIONS);
+  const fallbackBaseOrder = (primarySections || []).length + 1000;
+  fallbackSections.forEach((section, index) => {
+    if (merged.has(section.id)) {
+      return;
+    }
+    merged.set(section.id, {
+      ...section,
+      order: fallbackBaseOrder + index
+    });
+  });
+
+  return Array.from(merged.values()).sort(sortSections);
+}
+
 function parseDetectedSections(rawDetectedSections) {
   if (!Array.isArray(rawDetectedSections) || rawDetectedSections.length === 0) {
-    return sectionOptionsFromLabels(FALLBACK_SECTIONS);
+    return mergeWithFallbackSections(sectionOptionsFromLabels(FALLBACK_SECTIONS));
   }
 
   if (typeof rawDetectedSections[0] === 'string') {
-    return sectionOptionsFromLabels(rawDetectedSections);
+    return mergeWithFallbackSections(sectionOptionsFromLabels(rawDetectedSections));
   }
 
   const unique = new Map();
@@ -80,43 +185,40 @@ function parseDetectedSections(rawDetectedSections) {
       return;
     }
 
-    const id = slugify(entry.id || entry.label);
+    const id = canonicalizeSectionId(entry.id || entry.label);
     const label = normalizeWhitespace(entry.label || entry.id);
     if (!id || !label || unique.has(id)) {
       return;
     }
 
     const order = typeof entry.order === 'number' ? entry.order : index;
-    unique.set(id, { id, label, order });
+    unique.set(id, { id, label: preferredLabelForSectionId(id, label), order });
   });
 
   if (unique.size === 0) {
-    return sectionOptionsFromLabels(FALLBACK_SECTIONS);
+    return mergeWithFallbackSections(sectionOptionsFromLabels(FALLBACK_SECTIONS));
   }
 
-  return Array.from(unique.values()).sort((a, b) => {
-    const aOrder = typeof a.order === 'number' ? a.order : Number.MAX_SAFE_INTEGER;
-    const bOrder = typeof b.order === 'number' ? b.order : Number.MAX_SAFE_INTEGER;
-    if (aOrder !== bOrder) {
-      return aOrder - bOrder;
-    }
-    return a.label.localeCompare(b.label);
-  });
+  return mergeWithFallbackSections(Array.from(unique.values()).sort(sortSections));
 }
 
 function showLoading() {
-  sectionsGrid.innerHTML = '<div style="padding:20px;text-align:center;color:#b0b0b0;">Detecting sections...</div>';
+  sectionsGrid.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-secondary);">Erkenne Sektionen...</div>';
 }
 
 async function loadSettings() {
   try {
-    const result = await browser.storage.local.get(DEFAULT_SETTINGS);
+    const result = await browser.storage.sync.get(DEFAULT_SETTINGS);
     hiddenSections = Array.isArray(result.hiddenSections) ? result.hiddenSections : [];
     hiddenSectionIds = dedupeSectionIds(result.hiddenSectionIds);
+    totalHiddenCount = typeof result.totalHiddenCount === 'number' ? result.totalHiddenCount : 0;
+    sectionStats = result.sectionStats || {};
   } catch (error) {
     console.error('Error loading settings:', error);
     hiddenSections = [];
     hiddenSectionIds = [];
+    totalHiddenCount = 0;
+    sectionStats = {};
   }
 }
 
@@ -137,12 +239,12 @@ async function migrateLegacyHiddenSectionsIfNeeded() {
 
   const bySlug = new Map();
   availableSections.forEach((section) => {
-    bySlug.set(slugify(section.id), section.id);
-    bySlug.set(slugify(section.label), section.id);
+    bySlug.set(canonicalizeSectionId(section.id), section.id);
+    bySlug.set(canonicalizeSectionId(section.label), section.id);
   });
 
   const migrated = hiddenSections
-    .map((label) => bySlug.get(slugify(label)))
+    .map((label) => bySlug.get(canonicalizeSectionId(label)))
     .filter(Boolean);
 
   if (migrated.length === 0) {
@@ -157,7 +259,7 @@ function renderSectionCheckboxes() {
   sectionsGrid.innerHTML = '';
 
   if (availableSections.length === 0) {
-    sectionsGrid.innerHTML = '<div style="padding:20px;text-align:center;color:#b0b0b0;">No sections detected. Visit tagesspiegel.de first!</div>';
+    sectionsGrid.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-secondary);">Keine Sektionen erkannt. Besuche erst tagesspiegel.de!</div>';
     return;
   }
 
@@ -181,12 +283,70 @@ function renderSectionCheckboxes() {
   });
 }
 
-async function saveSetting(key, value) {
-  try {
-    await browser.storage.local.set({ [key]: value });
-    await browser.storage.sync.set({ [key]: value }).catch(() => {});
-  } catch (error) {
-    console.error(`Error saving ${key}:`, error);
+function renderStats() {
+  if (topSectionsList) {
+    topSectionsList.innerHTML = '';
+    
+    // Sort ALL stats by count descending
+    const sortedStats = Object.entries(sectionStats)
+      .map(([id, data]) => ({ id, ...data }))
+      .filter(item => item.count > 0)
+      .sort((a, b) => b.count - a.count);
+      
+    if (sortedStats.length === 0) {
+      topSectionsList.innerHTML = '<div class="empty-stats">Noch keine Daten vorhanden.</div>';
+      return;
+    }
+    
+    sortedStats.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'stat-item';
+      
+      const label = document.createElement('span');
+      label.className = 'stat-item-label';
+      label.textContent = item.label || item.id;
+      
+      const count = document.createElement('span');
+      count.className = 'stat-item-count';
+      count.textContent = `${item.count}×`;
+      
+      row.appendChild(label);
+      row.appendChild(count);
+      topSectionsList.appendChild(row);
+    });
+  }
+}
+
+function renderActiveSections() {
+  if (!activeSectionsList) return;
+  
+  activeSectionsList.innerHTML = '';
+  
+  // Find which available sections are currently being hidden
+  const activeHidden = availableSections.filter(s => hiddenSectionIds.includes(s.id));
+  
+  if (activeHidden.length === 0) {
+    activeSectionsList.innerHTML = '<div class="empty-stats">Auf dieser Seite wird aktuell nichts ausgeblendet.</div>';
+    return;
+  }
+  
+  activeHidden.forEach(section => {
+    const row = document.createElement('div');
+    row.className = 'stat-item';
+    
+    const label = document.createElement('span');
+    label.className = 'stat-item-label';
+    label.textContent = section.label;
+    
+    row.appendChild(label);
+    activeSectionsList.appendChild(row);
+  });
+}
+
+function updateVersionInfo() {
+  const versionEl = document.getElementById('extensionVersion');
+  if (versionEl) {
+    versionEl.textContent = browser.runtime.getManifest().version;
   }
 }
 
@@ -199,14 +359,13 @@ async function saveHiddenSelections() {
   hiddenSections = sectionLabels;
 
   try {
-    await browser.storage.local.set({
+    const data = {
       hiddenSectionIds,
       hiddenSections
-    });
-    await browser.storage.sync.set({
-      hiddenSectionIds,
-      hiddenSections
-    }).catch(() => {});
+    };
+    await browser.storage.sync.set(data);
+    // Keep local in sync for faster access if needed, though we primarily use sync now
+    await browser.storage.local.set(data).catch(() => {});
   } catch (error) {
     console.error('Error saving hidden sections:', error);
   }
@@ -214,12 +373,16 @@ async function saveHiddenSelections() {
 
 async function toggleSection(sectionId, isChecked) {
   if (isChecked) {
-    hiddenSectionIds.push(sectionId);
+    if (!hiddenSectionIds.includes(sectionId)) {
+      hiddenSectionIds.push(sectionId);
+    }
   } else {
     hiddenSectionIds = hiddenSectionIds.filter((id) => id !== sectionId);
   }
 
   await saveHiddenSelections();
+  renderStats();
+  renderActiveSections();
 }
 
 function showStatusMessage(message) {
@@ -245,6 +408,7 @@ function setupEventListeners() {
   }
   listenersBound = true;
 
+  // Checkbox changes
   sectionsGrid.addEventListener('change', async (event) => {
     if (event.target.type !== 'checkbox') {
       return;
@@ -256,9 +420,10 @@ function setupEventListeners() {
     }
 
     await toggleSection(sectionId, event.target.checked);
-    showStatusMessage('Settings saved!');
+    showStatusMessage('Einstellungen gespeichert!');
   });
 
+  // Refresh button
   const refreshButton = document.getElementById('refreshSections');
   if (refreshButton) {
     refreshButton.addEventListener('click', async () => {
@@ -266,9 +431,33 @@ function setupEventListeners() {
       await loadSections();
       await migrateLegacyHiddenSectionsIfNeeded();
       renderSectionCheckboxes();
-      showStatusMessage('Sections refreshed!');
+      renderStats();
+      showStatusMessage('Sektionen aktualisiert!');
     });
   }
+
+  // Tab switching
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tabName = btn.dataset.tab;
+      
+      // Update buttons
+      tabButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      // Update content
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(c => c.classList.remove('active'));
+      document.getElementById(`${tabName}Tab`).classList.add('active');
+      
+      if (tabName === 'stats') {
+        loadSettings().then(() => renderStats());
+      } else if (tabName === 'active') {
+        renderActiveSections();
+      }
+    });
+  });
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -277,5 +466,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadSections();
   await migrateLegacyHiddenSectionsIfNeeded();
   renderSectionCheckboxes();
+  renderActiveSections();
+  renderStats();
+  updateVersionInfo();
   setupEventListeners();
 });
