@@ -71,7 +71,8 @@ const DEFAULT_SETTINGS = {
   hiddenSections: [], // legacy labels
   hiddenSectionIds: [], // canonical IDs
   totalHiddenCount: 0,
-  sectionStats: {}
+  sectionStats: {},
+  extensionEnabled: true
 };
 
 let availableSections = []; // [{ id, label }]
@@ -79,6 +80,7 @@ let hiddenSectionIds = [];
 let hiddenSections = [];
 let totalHiddenCount = 0;
 let sectionStats = {};
+let extensionEnabled = true;
 let listenersBound = false;
 
 const sectionsGrid = document.getElementById('sectionsGrid');
@@ -213,12 +215,14 @@ async function loadSettings() {
     hiddenSectionIds = dedupeSectionIds(result.hiddenSectionIds);
     totalHiddenCount = typeof result.totalHiddenCount === 'number' ? result.totalHiddenCount : 0;
     sectionStats = result.sectionStats || {};
+    extensionEnabled = result.extensionEnabled !== false;
   } catch (error) {
     console.error('Error loading settings:', error);
     hiddenSections = [];
     hiddenSectionIds = [];
     totalHiddenCount = 0;
     sectionStats = {};
+    extensionEnabled = true;
   }
 }
 
@@ -350,6 +354,41 @@ function updateVersionInfo() {
   }
 }
 
+function renderSettings() {
+  const extensionEnabledToggle = document.getElementById('extensionEnabled');
+  
+  if (extensionEnabledToggle) {
+    extensionEnabledToggle.checked = extensionEnabled;
+  }
+}
+
+async function saveSettings() {
+  try {
+    await browser.storage.sync.set({
+      extensionEnabled
+    });
+  } catch (error) {
+    console.error('Error saving settings:', error);
+  }
+}
+
+async function toggleExtension(enabled) {
+  extensionEnabled = enabled;
+  await saveSettings();
+  
+  // Notify background script and content script
+  try {
+    await browser.runtime.sendMessage({
+      type: 'EXTENSION_STATUS_CHANGED',
+      enabled
+    });
+  } catch (error) {
+    // Background script might not be ready
+  }
+  
+  showStatusMessage(enabled ? 'Extension aktiviert!' : 'Extension deaktiviert!');
+}
+
 async function saveHiddenSelections() {
   hiddenSectionIds = dedupeSectionIds(hiddenSectionIds);
   const sectionLabels = availableSections
@@ -441,23 +480,33 @@ function setupEventListeners() {
   tabButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       const tabName = btn.dataset.tab;
-      
+
       // Update buttons
       tabButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      
+
       // Update content
       const contents = document.querySelectorAll('.tab-content');
       contents.forEach(c => c.classList.remove('active'));
       document.getElementById(`${tabName}Tab`).classList.add('active');
-      
+
       if (tabName === 'stats') {
         loadSettings().then(() => renderStats());
       } else if (tabName === 'active') {
         renderActiveSections();
+      } else if (tabName === 'settings') {
+        loadSettings().then(() => renderSettings());
       }
     });
   });
+
+  // Settings toggles
+  const extensionEnabledToggle = document.getElementById('extensionEnabled');
+  if (extensionEnabledToggle) {
+    extensionEnabledToggle.addEventListener('change', (event) => {
+      toggleExtension(event.target.checked);
+    });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -469,5 +518,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderActiveSections();
   renderStats();
   updateVersionInfo();
+  renderSettings();
   setupEventListeners();
 });

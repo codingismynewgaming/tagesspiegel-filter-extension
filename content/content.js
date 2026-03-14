@@ -9,14 +9,16 @@
     hiddenSections: [], // legacy labels
     hiddenSectionIds: [], // canonical IDs
     totalHiddenCount: 0, // cumulative stat
-    sectionStats: {} // { sectionId: { label, count } }
+    sectionStats: {}, // { sectionId: { label, count } }
+    extensionEnabled: true
   };
 
   const STORAGE_KEYS = [
     'hiddenSections',
     'hiddenSectionIds',
     'totalHiddenCount',
-    'sectionStats'
+    'sectionStats',
+    'extensionEnabled'
   ];
 
   const MODULE_RULES = {
@@ -600,7 +602,7 @@
     return Array.from(ids);
   }
 
-  function hideElement(element, sectionId, kind) {
+  function hideElement(element, sectionId, kind, isInitialHide = false) {
     if (!element || element.nodeType !== Node.ELEMENT_NODE) {
       return false;
     }
@@ -642,13 +644,14 @@
 
     element.style.setProperty('display', 'none', 'important');
     element.setAttribute('data-hidden-by-customizer', sectionId);
-    
-    // Increment total hidden count for stats (only if not already counted on this page load)
-    if (!element.hasAttribute('data-stat-counted')) {
+
+    // Increment total hidden count for stats
+    // Track on initial page load OR when user manually hides a section
+    if (isInitialHide || !element.hasAttribute('data-stat-counted')) {
       element.setAttribute('data-stat-counted', 'true');
       incrementTotalHiddenStat(sectionId);
     }
-    
+
     return true;
   }
 
@@ -691,7 +694,14 @@
     return matches;
   }
 
-  function hideSections(hiddenIds) {
+  function hideSections(hiddenIds, isInitialHide = false) {
+    // Check if extension is enabled
+    if (!currentSettings.extensionEnabled) {
+      console.log('[Tagesspiegel Filter] Extension disabled, not hiding sections');
+      updateBadge(0);
+      return;
+    }
+
     if (!Array.isArray(hiddenIds) || hiddenIds.length === 0) {
       updateBadge(0);
       return;
@@ -710,7 +720,7 @@
 
       if (section) {
         section.elements.forEach((entry) => {
-          if (hideElement(entry.node, sectionId, entry.kind)) {
+          if (hideElement(entry.node, sectionId, entry.kind, isInitialHide)) {
             hiddenCount += 1;
           }
         });
@@ -718,7 +728,7 @@
 
       // Fallback: if dynamic refresh replaced nodes, re-scan section containers by heading id.
       fallbackElementsForSectionId(sectionId).forEach((entry) => {
-        if (hideElement(entry.node, sectionId, entry.kind)) {
+        if (hideElement(entry.node, sectionId, entry.kind, isInitialHide)) {
           hiddenCount += 1;
         }
       });
@@ -815,7 +825,8 @@
     await syncSectionsToPopup();
 
     const hiddenIds = resolveHiddenSectionIds(currentSettings);
-    hideSections(hiddenIds);
+    // Pass true for initial load and mutation refreshes to track stats
+    hideSections(hiddenIds, reason === 'initial' || reason === 'mutation');
     await persistHiddenSectionIds(hiddenIds);
 
     console.log('[Tagesspiegel Filter] Refresh completed:', reason);
@@ -888,7 +899,26 @@
       if (Object.prototype.hasOwnProperty.call(changes, 'hiddenSectionIds') ||
           Object.prototype.hasOwnProperty.call(changes, 'hiddenSections')) {
         const hiddenIds = resolveHiddenSectionIds(currentSettings);
-        hideSections(hiddenIds);
+        // Don't track stats when settings change from another tab - just hide/show
+        hideSections(hiddenIds, false);
+      }
+
+      // Handle extension enable/disable change
+      if (Object.prototype.hasOwnProperty.call(changes, 'extensionEnabled')) {
+        const enabled = changes.extensionEnabled.newValue !== false;
+        if (enabled) {
+          // Re-apply hiding when extension is re-enabled
+          const hiddenIds = resolveHiddenSectionIds(currentSettings);
+          hideSections(hiddenIds, false);
+        } else {
+          // Show all sections when disabled
+          document.querySelectorAll('[data-hidden-by-customizer]').forEach((el) => {
+            el.style.removeProperty('display');
+            el.removeAttribute('data-hidden-by-customizer');
+            el.removeAttribute('data-stat-counted');
+          });
+          updateBadge(0);
+        }
       }
     });
   }
@@ -896,7 +926,7 @@
   async function init() {
     currentSettings = await loadSettings();
 
-    await refreshDetectionAndApply('init');
+    await refreshDetectionAndApply('initial');
     setupMutationObserver();
     setupStorageListener();
   }
