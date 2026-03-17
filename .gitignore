@@ -48,3 +48,7 @@ mozilla-submission.json
 
 # Old directories
 -p/
+
+# Build output (Chrome/Edge builds, submission packages)
+builds/
+chrome/
