@@ -1,18 +1,18 @@
 # Tagesspiegel Filter 📰
 
 ### Was ist das?
-Der **Tagesspiegel Filter** ist eine kleine, aber feine Browser-Erweiterung für Firefox, die dir dabei hilft, dein Leseerlebnis auf Tagesspiegel.de zu personalisieren. Wenn dich bestimmte Themen wie Sport, Wirtschaft oder Politik gerade nicht interessieren, kannst du diese Sektionen einfach ausblenden. So bleibt deine Startseite übersichtlich und fokussiert auf das, was du wirklich lesen willst! 🚀
+Der **Tagesspiegel Filter** ist eine Browser-Erweiterung für Firefox, die dir dabei hilft, dein Leseerlebnis auf Tagesspiegel.de zu personalisieren. Wenn dich bestimmte Themen wie Sport, Wirtschaft oder Politik gerade nicht interessieren, kannst du diese Sektionen einfach ausblenden. So bleibt deine Startseite übersichtlich und fokussiert auf das, was du wirklich lesen willst! 🚀
 
 ## Was die Erweiterung kann ✨
 
 - **Sektionen einfach ausblenden:** Wähle über ein einfaches Menü aus, welche Themenbereiche (z.B. Berlin, Wissen, Kultur) du nicht sehen möchtest.
-- **Sauberes Design:** Die ausgeblendeten Bereiche verschwinden komplett, als wären sie nie da gewesen.
-- **Dein Style:** Die Erweiterung merkt sich deine Einstellungen automatisch – auch wenn du dich mit deinem Firefox-Konto anmeldest.
 - **Privatsphäre an erster Stelle:** Keine Werbung, kein Tracking, keine Datensammlung. Alles passiert nur in deinem Browser.
 
 ## Nutzung 📖
 Klicke einfach auf das kleine "T" in deiner Browser-Leiste. Dort kannst du mit Checkboxen entscheiden, was du sehen willst und was nicht. Die Änderungen werden sofort aktiv!
 
+## Installation
+-> https://addons.mozilla.org/en-US/firefox/addon/tagesspiegel-filter/
 ---
 
 ## Hinweis / Disclaimer ⚖️
