@@ -1,0 +1,11 @@
+# Import Files - Safe to Commit
+
+✅ These files are safe to commit to Git:
+- `import-to-nextcloud-deck.md` - Documentation
+- `nextcloud-deck-import.json` - Import data (no credentials)
+- `Willkommen bei Nextcloud Deck!.json` - Reference export
+- `README.md` - This guide
+
+❌ Do NOT add:
+- Your own exports with personal data
+- Modified configs with credentials

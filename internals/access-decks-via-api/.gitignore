@@ -1,0 +1,12 @@
+# Nextcloud Deck API Credentials
+
+# NEVER commit this file!
+config.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment variables
+.env
