@@ -152,7 +152,7 @@ def create_card():
     }
     
     try:
-        response = session.put(url, json=card_data)
+        response = session.post(url, json=card_data)
         response.raise_for_status()
         
         card = response.json()
