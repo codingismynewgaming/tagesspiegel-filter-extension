@@ -1,0 +1,629 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tagesspiegel Filter - Screenshot Generator</title>
+  <style>
+    :root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f3f4f6;
+  --bg-tertiary: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --border: #d1d5db;
+  --success: #10b981;
+  --stat-card-bg: #f9fafb;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-tertiary: #3d3d3d;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --border: #404040;
+    --stat-card-bg: #2d2d2d;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  width: 380px;
+  min-height: 400px;
+  padding: 16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+header h1 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  padding-bottom: 4px;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.tab-btn.active {
+  background-color: var(--accent);
+  color: white;
+}
+
+.tab-content {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tab-content.active {
+  display: flex;
+}
+
+h2 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-header h2 {
+  margin: 0;
+}
+
+/* Refresh Button */
+.refresh-btn {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.refresh-btn:hover {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+/* Stats List */
+.stats-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.stats-list-container h3 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-secondary);
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.stat-item-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.stat-item-count {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  background-color: var(--bg-tertiary);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.empty-stats {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-style: italic;
+  font-size: 13px;
+}
+
+/* Info Tab */
+.info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 8px 4px;
+}
+
+.info-text {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.donation-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-link {
+  display: block;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.btn-link:active {
+  transform: scale(0.98);
+}
+
+.bmc-btn {
+  background-color: #FFDD00;
+  color: #000000;
+}
+
+.paypal-btn {
+  background-color: #003087;
+  color: #ffffff;
+}
+
+.github-btn {
+  background-color: #24292e;
+  color: #ffffff;
+}
+
+.btn-link:hover {
+  opacity: 0.9;
+}
+
+.version-info {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: center;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+.disclaimer-container {
+  margin-top: 8px;
+  padding: 12px;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.disclaimer-container h3 {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.disclaimer-container p {
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.disclaimer-container p:last-child {
+  margin-bottom: 0;
+}
+
+/* Sections Grid */
+.sections-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background-color: var(--bg-secondary);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.section-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.section-checkbox:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.section-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
+.section-checkbox label {
+  font-size: 13px;
+  color: var(--text-primary);
+  cursor: pointer;
+  flex: 1;
+}
+
+/* Scrollbar Styling */
+.sections-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sections-grid::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 4px;
+}
+
+.sections-grid::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.sections-grid::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Status Message */
+.status-message {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--success);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.status-message.visible {
+  opacity: 1;
+}
+
+/* Settings Tab */
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 8px 4px;
+}
+
+.settings-container h3 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.setting-item:last-of-type {
+  border-bottom: none;
+}
+
+.setting-item label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.setting-description {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  width: 50px;
+  height: 26px;
+  display: inline-block;
+}
+
+.toggle-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+  border-radius: 26px;
+  z-index: 1;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2px;
+  background-color: var(--text-primary);
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(24px);
+  background-color: white;
+}
+
+.toggle-switch input:focus + .toggle-slider {
+  box-shadow: 0 0 2px var(--accent);
+}
+
+    
+    /* Override body for screenshot */
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    /* Force light mode for consistency */
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f5f5f5;
+      --text-primary: #1a1a1a;
+      --text-secondary: #666666;
+      --border-color: #e0e0e0;
+      --primary-color: #00426A;
+      --accent-color: #0066cc;
+      --error-color: #d32f2f;
+      --success-color: #388e3c;
+    }
+    
+    /* Fixed container size for screenshots */
+    .container {
+      max-width: 100%;
+      margin: 0;
+      box-shadow: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" style="min-height: 760px;">
+    <header>
+      <h1>📰 Tagesspiegel Filter</h1>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="filter">Filter</button>
+      <button class="tab-btn" data-tab="active">Aktiv</button>
+      <button class="tab-btn" data-tab="stats">Stats</button>
+      <button class="tab-btn" data-tab="settings">Einstellungen</button>
+      <button class="tab-btn" data-tab="info">Info</button>
+    </nav>
+
+    <!-- Filter Tab -->
+    <section id="filterTab" class="tab-content active">
+      <div class="section-header">
+        <h2>Sektionen ausblenden</h2>
+        <button id="refreshSections" class="refresh-btn" title="Sektionen neu erkennen">
+          🔄 Refresh
+        </button>
+      </div>
+      <div class="sections-grid" id="sectionsGrid">
+        <div class="section-checkbox">
+          <input type="checkbox" id="section-politik" checked>
+          <label for="section-politik">Politik</label>
+        </div>
+        <div class="section-checkbox">
+          <input type="checkbox" id="section-berlin" checked>
+          <label for="section-berlin">Berlin</label>
+        </div>
+        <div class="section-checkbox">
+          <input type="checkbox" id="section-sport">
+          <label for="section-sport">Sport</label>
+        </div>
+        <div class="section-checkbox">
+          <input type="checkbox" id="section-wirtschaft">
+          <label for="section-wirtschaft">Wirtschaft</label>
+        </div>
+        <div class="section-checkbox">
+          <input type="checkbox" id="section-kultur">
+          <label for="section-kultur">Kultur</label>
+        </div>
+        <div class="section-checkbox">
+          <input type="checkbox" id="section-wissen">
+          <label for="section-wissen">Wissen</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Active Tab -->
+    <section id="activeTab" class="tab-content">
+      <div class="section-header">
+        <h2>Auf dieser Seite ausgeblendet</h2>
+      </div>
+      <div id="activeSectionsList" class="stats-list">
+        <div class="stat-item">
+          <span class="stat-item-label">Politik</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-item-label">Berlin</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Tab -->
+    <section id="statsTab" class="tab-content">
+      <div class="stats-list-container">
+        <h3>Alle ausgeblendeten Sektionen</h3>
+        <div id="topSectionsList" class="stats-list">
+          <div class="stat-item">
+            <span class="stat-item-label">Politik</span>
+            <span class="stat-item-count">15×</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-item-label">Berlin</span>
+            <span class="stat-item-count">12×</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-item-label">Sport</span>
+            <span class="stat-item-count">8×</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings Tab -->
+    <section id="settingsTab" class="tab-content">
+      <div class="settings-container">
+        <h3>Extension Status</h3>
+        <div class="setting-item">
+          <label for="extensionEnabled">Extension aktiv</label>
+          <div class="toggle-switch">
+            <input type="checkbox" id="extensionEnabled" checked>
+            <span class="toggle-slider"></span>
+          </div>
+        </div>
+        <p class="setting-description">
+          Wenn deaktiviert, werden keine Sektionen mehr ausgeblendet, bis du sie wieder aktivierst.
+        </p>
+      </div>
+    </section>
+
+    <!-- Info Tab -->
+    <section id="infoTab" class="tab-content">
+      <div class="info-container">
+        <p class="info-text">
+          Enjoying this extension? Instead of sending me your Bitcoins, just buy me a coffee or send a donation via PayPal :-)
+        </p>
+
+        <div class="donation-buttons">
+          <a href="#" class="btn-link bmc-btn">☕ Buy me a coffee</a>
+          <a href="#" class="btn-link paypal-btn">💙 PayPal Spende</a>
+          <a href="#" class="btn-link github-btn">🐙 GitHub Profile</a>
+        </div>
+
+        <div class="disclaimer-container">
+          <h3>Hinweis / Disclaimer</h3>
+          <p>
+            Dieses Projekt ist eine inoffizielle Browser‑Erweiterung und steht in keiner Verbindung zu Tagesspiegel, R. Pieper Verlag GmbH oder deren Partnern.
+          </p>
+        </div>
+
+        <div class="version-info">
+          Version <span id="extensionVersion">1.0.2</span>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

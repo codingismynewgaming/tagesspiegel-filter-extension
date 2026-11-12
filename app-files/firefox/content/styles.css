@@ -1,0 +1,79 @@
+/* Tagesspiegel Filter - Injected Styles */
+
+/* Hide sections marked by customizer */
+[data-hidden-by-customizer] {
+  display: none !important;
+}
+
+/* Comment Sort Toast Notification */
+.ts-customizer-toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #00426A; /* Tagesspiegel blue */
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-sans, Arial, sans-serif);
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+  animation: tsSlideIn 0.3s ease-out;
+  max-width: 400px;
+}
+
+.ts-customizer-toast-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.ts-customizer-toast-message {
+  flex: 1;
+}
+
+.ts-customizer-toast-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.ts-customizer-toast-close:hover {
+  opacity: 1;
+}
+
+@keyframes tsSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .ts-customizer-toast {
+    bottom: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+}

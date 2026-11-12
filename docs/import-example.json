@@ -1,0 +1,111 @@
+{
+  "boards": [
+    {
+      "id": 153,
+      "title": "Tagesspiegel Extension",
+      "owner": "kuehn-2681",
+      "color": "306940",
+      "archived": false,
+      "labels": [
+        {
+          "id": 621,
+          "title": "Abgeschlossen",
+          "color": "31CC7C",
+          "boardId": 153,
+          "cardId": null,
+          "lastModified": 0,
+          "ETag": "cfcd208495d565ef66e7dff9f98764da"
+        },
+        {
+          "id": 622,
+          "title": "Zu überprüfen",
+          "color": "317CCC",
+          "boardId": 153,
+          "cardId": null,
+          "lastModified": 0,
+          "ETag": "cfcd208495d565ef66e7dff9f98764da"
+        },
+        {
+          "id": 623,
+          "title": "Handlung erforderlich",
+          "color": "FF7A66",
+          "boardId": 153,
+          "cardId": null,
+          "lastModified": 0,
+          "ETag": "cfcd208495d565ef66e7dff9f98764da"
+        },
+        {
+          "id": 624,
+          "title": "Später",
+          "color": "F1DB50",
+          "boardId": 153,
+          "cardId": null,
+          "lastModified": 0,
+          "ETag": "cfcd208495d565ef66e7dff9f98764da"
+        }
+      ],
+      "acl": [],
+      "permissions": [],
+      "users": [],
+      "stacks": {
+        "504": {
+          "id": 504,
+          "title": "test",
+          "boardId": 153,
+          "deletedAt": 0,
+          "lastModified": 1774771932,
+          "cards": [
+            {
+              "id": 895,
+              "title": "dadas",
+              "description": "",
+              "descriptionPrev": null,
+              "stackId": 504,
+              "type": "plain",
+              "lastModified": 1774771932,
+              "lastEditor": null,
+              "createdAt": 1774771932,
+              "labels": [],
+              "assignedUsers": [],
+              "attachments": [],
+              "attachmentCount": 0,
+              "owner": {
+                "primaryKey": "kuehn-2681",
+                "uid": "kuehn-2681",
+                "displayname": "kuehn-2681",
+                "type": 0
+              },
+              "order": 999,
+              "archived": false,
+              "done": null,
+              "duedate": null,
+              "notified": false,
+              "deletedAt": 0,
+              "commentsUnread": 0,
+              "commentsCount": 0,
+              "relatedStack": null,
+              "relatedBoard": null,
+              "ETag": "78a72981ffce89645f0161f4d5964f23"
+            }
+          ],
+          "order": 999,
+          "ETag": "78a72981ffce89645f0161f4d5964f23"
+        },
+        "505": {
+          "id": 505,
+          "title": "asdasd",
+          "boardId": 153,
+          "deletedAt": 0,
+          "lastModified": 0,
+          "order": 999,
+          "ETag": "cfcd208495d565ef66e7dff9f98764da"
+        }
+      },
+      "activeSessions": [],
+      "deletedAt": 0,
+      "lastModified": 1774771944,
+      "settings": [],
+      "ETag": "9e9da6fd3af2af35ad6ddfcb6af31ba5"
+    }
+  ]
+}

@@ -1,50 +1,7 @@
-# Dependencies
+*.zip
+*.xpi
 node_modules/
-package.json
-package-lock.json
-
-# Build artifacts
-.build/
-.checkpoints/
-dist/
-web-ext-artifacts/
-web-ext-artifacts-clean/
-extension-source/
-
-# Logs
-*.log
-
-# Screenshots
-test-screenshot.png
-tmp-fullpage.png
-
-# DOM snapshots
-tagesspiegel-dom-snapshot.json
-tagesspiegel-structure-report.json
-
-# Old builds
-tagesspiegel-customizer.zip
-
-# Env
-.env
-
-# Icon HTML sources
-icons/*-new.html
-icons/*.html
-icons/*.png
-
-# Debug
-debug-bookmarklet.js
-find-missing-sections.js
-
-
-
-# Development / Planning (Local Only)
-status.md
-PLAN.md
-DETECTION_HIDING_HANDOFF.md
-WEB_EXT_ANDROID_NIGHTLY.md
-mozilla-submission.json
-
-# Old directories
--p/
+.DS_Store
+Thumbs.db
+docs/amo-credentials.md
+internals/access-decks-via-api/config.json
