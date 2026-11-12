@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Tagesspiegel Filter",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Blenden Sie unerwünschte Sektionen auf Tagesspiegel.de aus - passen Sie Ihr Leseerlebnis an",
   "icons": {
     "16": "icons/icon-16.png",

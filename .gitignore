@@ -1,0 +1,7 @@
+*.zip
+*.xpi
+node_modules/
+.DS_Store
+Thumbs.db
+docs/amo-credentials.md
+internals/access-decks-via-api/config.json

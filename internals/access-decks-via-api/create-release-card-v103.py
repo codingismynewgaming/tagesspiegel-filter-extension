@@ -18,23 +18,13 @@ import requests
 import json
 from pathlib import Path
 
-# Load configuration
-config_path = Path(__file__).parent / 'config.json'
-if not config_path.exists():
-    print("❌ config.json not found!")
-    print("Please copy config.example.json to config.json and fill in your credentials.")
-    exit(1)
-
-with open(config_path, 'r') as f:
-    config = json.load(f)
-
-BASE_URL = config.get('nextcloud_url', 'https://nx2.tcrcloud.de')
-USERNAME = config.get('username', 'jmk')
-APP_PASSWORD = config.get('app_password', '')
+BASE_URL = "https://nx2.tcrcloud.de"
+USERNAME = "kuehn-2681"
+APP_PASSWORD = "Qbzwc-8Zknd-pSkTY-KXyYG-bDdg8"
 
 # Board and Stack IDs (from existing project)
 BOARD_ID = 155  # 📰 Tagesspiegel Filter Extension
-STACK_ID = 794  # Done stack (for completed releases)
+STACK_ID = 515  # Releases stack (for release cards)
 
 # Release v1.0.3 Card Details
 CARD_TITLE = "📦 Release v1.0.3 - Firefox Nightly Android Testing + German Localization"
@@ -162,7 +152,7 @@ def create_card():
         print(f"   Card ID: {card_id}")
         print(f"   Title: {CARD_TITLE}")
         print(f"   Board: {BOARD_ID}")
-        print(f"   Stack: {STACK_ID} (Done)")
+        print(f"   Stack: {STACK_ID} (Releases)")
         print(f"\n   View in Nextcloud Deck:")
         print(f"   {BASE_URL}/apps/deck/board/{BOARD_ID}")
         
