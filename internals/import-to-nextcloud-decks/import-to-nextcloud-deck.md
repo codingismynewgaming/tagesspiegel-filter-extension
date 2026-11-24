@@ -91,7 +91,7 @@ This file shows you the **exact structure** Deck expects.
 | Field | Required | Example |
 |-------|----------|---------|
 | `title` | ✅ | `"📰 Tagesspiegel Filter Extension"` |
-| `owner` | ✅ | `"jmk"` (your Nextcloud username) |
+| `owner` | ✅ | `"your-username"` (your Nextcloud username) |
 | `color` | ✅ | `"306940"` (hex without #) |
 | `archived` | ✅ | `false` |
 | `labels` | ✅ | Array of label objects |
@@ -139,9 +139,9 @@ This file shows you the **exact structure** Deck expects.
 #### Owner Object (Required in Cards)
 ```json
 "owner": {
-  "primaryKey": "jmk",
-  "uid": "jmk",
-  "displayname": "jmk",
+  "primaryKey": "your-username",
+  "uid": "your-username",
+  "displayname": "your-username",
   "type": 0
 }
 ```

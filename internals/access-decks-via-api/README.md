@@ -8,14 +8,14 @@ Local Nextcloud setup and API client for Deck integration.
 
 ### Option 1: Use Your Live Nextcloud (Recommended)
 
-You already have Nextcloud at: **https://nx2.tcrcloud.de**
+You already have Nextcloud at: **https://nextcloud.example.com**
 
-**Your Deck Board**: https://nx2.tcrcloud.de/apps/deck/board/155
+**Your Deck Board**: https://nextcloud.example.com/apps/deck/board/155
 
 **To access via API:**
 
 1. **Generate App Password**:
-   - Go to https://nx2.tcrcloud.de/settings/user/security
+   - Go to https://nextcloud.example.com/settings/user/security
    - Scroll to "App passwords"
    - Click "Create new app password"
    - Name: "Deck API"
@@ -82,8 +82,8 @@ This skill provides:
 from nextcloud-deck-api import NextcloudDeckAPI
 
 api = NextcloudDeckAPI(
-    base_url="https://nx2.tcrcloud.de",
-    username="jmk",
+    base_url="https://nextcloud.example.com",
+    username="your-username",
     app_password="YOUR_APP_PASSWORD"
 )
 
@@ -106,17 +106,17 @@ card = api.create_card(
 
 **List Boards**:
 ```bash
-curl -u jmk:APP_PASSWORD \
+curl -u your-username:APP_PASSWORD \
   -X GET \
-  "https://nx2.tcrcloud.de/index.php/apps/deck/api/v1.0/boards" \
+  "https://nextcloud.example.com/index.php/apps/deck/api/v1.0/boards" \
   -H "OCS-APIRequest: true"
 ```
 
 **Create Card**:
 ```bash
-curl -u jmk:APP_PASSWORD \
+curl -u your-username:APP_PASSWORD \
   -X POST \
-  "https://nx2.tcrcloud.de/index.php/apps/deck/api/v1.0/boards/155/stacks/1/cards" \
+  "https://nextcloud.example.com/index.php/apps/deck/api/v1.0/boards/155/stacks/1/cards" \
   -H "OCS-APIRequest: true" \
   -H "Content-Type: application/json" \
   -d '{"title":"New Task","description":"Desc","type":"text"}'
@@ -220,7 +220,7 @@ npx skills update             # Update all skills
 
 **Board Name**: 📰 Tagesspiegel Filter Extension  
 **Board ID**: `155`  
-**URL**: https://nx2.tcrcloud.de/apps/deck/board/155  
+**URL**: https://nextcloud.example.com/apps/deck/board/155  
 
 This is the **main project management board** for the Tagesspiegel Filter Extension project.
 

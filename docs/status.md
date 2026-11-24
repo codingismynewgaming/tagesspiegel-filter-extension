@@ -213,7 +213,7 @@ Nextcloud Deck Web UI import ONLY accepts its own export format. The error messa
 ### API Access
 - **Main Project Board**: 📰 Tagesspiegel Filter Extension
 - **Board ID**: 155
-- **Board URL**: https://nx2.tcrcloud.de/apps/deck/board/155
+- **Board URL**: https://nextcloud.example.com/apps/deck/board/155
 - **API Client**: `internals/access-decks-via-api/nextcloud-deck-api.py`
 - **Setup**: Copy `config.example.json` to `config.json` and add app password
 - **Status**: ✅ API connection tested and working (2026-03-29)

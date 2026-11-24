@@ -30,7 +30,7 @@ The file `nextcloud-deck-import.json` is already prepared with your project data
 
 ### Step 3: Import via Web UI
 
-1. **Open Nextcloud Deck**: https://nx2.tcrcloud.de/apps/deck/
+1. **Open Nextcloud Deck**: https://nextcloud.example.com/apps/deck/
 2. **Click Import** (Settings or board menu)
 3. **Select file**: `nextcloud-deck-import.json`
 4. **Wait** for import to complete
@@ -123,7 +123,7 @@ The file `nextcloud-deck-import.json` is already prepared with your project data
 ## 🔗 Related Folders
 
 - **API Access**: `../access-decks-via-api/` - For programmatic access via REST API
-- **Main Project Board**: https://nx2.tcrcloud.de/apps/deck/board/155
+- **Main Project Board**: https://nextcloud.example.com/apps/deck/board/155
 
 ---
 

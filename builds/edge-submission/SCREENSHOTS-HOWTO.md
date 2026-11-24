@@ -10,7 +10,7 @@ Since the automated script has issues, here's the easiest way to create screensh
 2. Navigate to: `edge://extensions/`
 3. Toggle **"Developer mode"** ON (top left)
 4. Click **"Load unpacked"**
-5. Select folder: `D:\personaldata\vibe-coding-projekte\tagesspiegel-extension\chrome`
+5. Select folder: `./chrome`
 
 ### Step 2: Navigate to Tagesspiegel
 

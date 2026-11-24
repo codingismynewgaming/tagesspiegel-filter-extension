@@ -135,6 +135,6 @@ The hard part is done - the extension is built and packaged. Now you just need t
 ---
 
 **Package location:**  
-`D:\personaldata\vibe-coding-projekte\tagesspiegel-extension\builds\tagesspiegel-filter-edge-submission-v1.0.2.zip`
+`./builds\tagesspiegel-filter-edge-submission-v1.0.2.zip`
 
 **Extract and follow the guides inside!**

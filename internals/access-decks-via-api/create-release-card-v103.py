@@ -14,13 +14,14 @@ Setup:
     3. Run the script
 """
 
+import os
 import requests
 import json
 from pathlib import Path
 
-BASE_URL = "https://nx2.tcrcloud.de"
-USERNAME = "kuehn-2681"
-APP_PASSWORD = "Qbzwc-8Zknd-pSkTY-KXyYG-bDdg8"
+BASE_URL = os.environ.get("NEXTCLOUD_URL", "https://nextcloud.example.com")
+USERNAME = os.environ.get("NEXTCLOUD_USERNAME", "your-username")
+APP_PASSWORD = os.environ.get("NEXTCLOUD_APP_PASSWORD", "")
 
 # Board and Stack IDs (from existing project)
 BOARD_ID = 155  # 📰 Tagesspiegel Filter Extension

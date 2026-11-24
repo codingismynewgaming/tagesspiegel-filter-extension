@@ -3,7 +3,7 @@
     {
       "id": 153,
       "title": "Tagesspiegel Extension",
-      "owner": "kuehn-2681",
+      "owner": "your-username",
       "color": "306940",
       "archived": false,
       "labels": [
@@ -70,9 +70,9 @@
               "attachments": [],
               "attachmentCount": 0,
               "owner": {
-                "primaryKey": "kuehn-2681",
-                "uid": "kuehn-2681",
-                "displayname": "kuehn-2681",
+                "primaryKey": "your-username",
+                "uid": "your-username",
+                "displayname": "your-username",
                 "type": 0
               },
               "order": 999,

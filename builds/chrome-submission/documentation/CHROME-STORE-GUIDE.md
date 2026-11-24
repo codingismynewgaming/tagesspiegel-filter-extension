@@ -7,7 +7,7 @@
 This submission package contains everything you need for Chrome Web Store:
 
 ### Extension Package
-- [x] tagesspiegel-filter-chrome-v1.0.2.zip (D:\personaldata\vibe-coding-projekte\tagesspiegel-extension\builds\chrome-submission\tagesspiegel-filter-chrome-v1.0.2.zip.Length / 1KB KB)
+- [x] tagesspiegel-filter-chrome-v1.0.2.zip (./builds\chrome-submission\tagesspiegel-filter-chrome-v1.0.2.zip.Length / 1KB KB)
 
 ### Icons
 - [x] icon-128.png (128x128px) - Required for Chrome Web Store

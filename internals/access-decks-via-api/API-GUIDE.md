@@ -8,7 +8,7 @@ Complete guide for accessing your Nextcloud Deck via REST API.
 
 ### 1. Generate App Password
 
-1. **Open Nextcloud**: https://nx2.tcrcloud.de
+1. **Open Nextcloud**: https://nextcloud.example.com
 2. **Go to Settings**: Click your profile picture → Settings
 3. **Security**: Click "Security" in left sidebar
 4. **App passwords**: Scroll to "App passwords" section
@@ -27,8 +27,8 @@ cd nextcloud-debug
 copy config.example.json config.json
 
 # Edit config.json with your credentials
-# - nextcloud_url: https://nx2.tcrcloud.de
-# - username: jmk
+# - nextcloud_url: https://nextcloud.example.com
+# - username: your-username
 # - app_password: <paste your app password>
 ```
 
@@ -44,7 +44,7 @@ python nextcloud-deck-api.py
 
 ### Base URL
 ```
-https://nx2.tcrcloud.de/index.php/apps/deck/api/v1.0
+https://nextcloud.example.com/index.php/apps/deck/api/v1.0
 ```
 
 ### Required Headers
@@ -57,7 +57,7 @@ Accept: application/json
 ### Authentication
 ```bash
 # HTTP Basic Auth
--u jmk:YOUR_APP_PASSWORD
+-u your-username:YOUR_APP_PASSWORD
 ```
 
 ---
@@ -66,34 +66,34 @@ Accept: application/json
 
 ### List All Boards
 ```bash
-curl -u jmk:YOUR_APP_PASSWORD \
+curl -u your-username:YOUR_APP_PASSWORD \
   -X GET \
-  "https://nx2.tcrcloud.de/index.php/apps/deck/api/v1.0/boards" \
+  "https://nextcloud.example.com/index.php/apps/deck/api/v1.0/boards" \
   -H "OCS-APIRequest: true" \
   -H "Content-Type: application/json"
 ```
 
 ### Get Board Details (ID: 155)
 ```bash
-curl -u jmk:YOUR_APP_PASSWORD \
+curl -u your-username:YOUR_APP_PASSWORD \
   -X GET \
-  "https://nx2.tcrcloud.de/index.php/apps/deck/api/v1.0/boards/155" \
+  "https://nextcloud.example.com/index.php/apps/deck/api/v1.0/boards/155" \
   -H "OCS-APIRequest: true"
 ```
 
 ### List Stacks in Board
 ```bash
-curl -u jmk:YOUR_APP_PASSWORD \
+curl -u your-username:YOUR_APP_PASSWORD \
   -X GET \
-  "https://nx2.tcrcloud.de/index.php/apps/deck/api/v1.0/boards/155/stacks" \
+  "https://nextcloud.example.com/index.php/apps/deck/api/v1.0/boards/155/stacks" \
   -H "OCS-APIRequest: true"
 ```
 
 ### Create New Board
 ```bash
-curl -u jmk:YOUR_APP_PASSWORD \
+curl -u your-username:YOUR_APP_PASSWORD \
   -X POST \
-  "https://nx2.tcrcloud.de/index.php/apps/deck/api/v1.0/boards" \
+  "https://nextcloud.example.com/index.php/apps/deck/api/v1.0/boards" \
   -H "OCS-APIRequest: true" \
   -H "Content-Type: application/json" \
   -d '{
@@ -104,9 +104,9 @@ curl -u jmk:YOUR_APP_PASSWORD \
 
 ### Create New Stack
 ```bash
-curl -u jmk:YOUR_APP_PASSWORD \
+curl -u your-username:YOUR_APP_PASSWORD \
   -X POST \
-  "https://nx2.tcrcloud.de/index.php/apps/deck/api/v1.0/boards/155/stacks" \
+  "https://nextcloud.example.com/index.php/apps/deck/api/v1.0/boards/155/stacks" \
   -H "OCS-APIRequest: true" \
   -H "Content-Type: application/json" \
   -d '{
@@ -117,9 +117,9 @@ curl -u jmk:YOUR_APP_PASSWORD \
 
 ### Create New Card
 ```bash
-curl -u jmk:YOUR_APP_PASSWORD \
+curl -u your-username:YOUR_APP_PASSWORD \
   -X POST \
-  "https://nx2.tcrcloud.de/index.php/apps/deck/api/v1.0/boards/155/stacks/1/cards" \
+  "https://nextcloud.example.com/index.php/apps/deck/api/v1.0/boards/155/stacks/1/cards" \
   -H "OCS-APIRequest: true" \
   -H "Content-Type: application/json" \
   -d '{
@@ -132,9 +132,9 @@ curl -u jmk:YOUR_APP_PASSWORD \
 
 ### Create Label
 ```bash
-curl -u jmk:YOUR_APP_PASSWORD \
+curl -u your-username:YOUR_APP_PASSWORD \
   -X POST \
-  "https://nx2.tcrcloud.de/index.php/apps/deck/api/v1.0/boards/155/labels" \
+  "https://nextcloud.example.com/index.php/apps/deck/api/v1.0/boards/155/labels" \
   -H "OCS-APIRequest: true" \
   -H "Content-Type: application/json" \
   -d '{
@@ -145,9 +145,9 @@ curl -u jmk:YOUR_APP_PASSWORD \
 
 ### Assign Label to Card
 ```bash
-curl -u jmk:YOUR_APP_PASSWORD \
+curl -u your-username:YOUR_APP_PASSWORD \
   -X PUT \
-  "https://nx2.tcrcloud.de/index.php/apps/deck/api/v1.0/boards/155/stacks/1/cards/1/assignLabel" \
+  "https://nextcloud.example.com/index.php/apps/deck/api/v1.0/boards/155/stacks/1/cards/1/assignLabel" \
   -H "OCS-APIRequest: true" \
   -H "Content-Type: application/json" \
   -d '{
@@ -164,8 +164,8 @@ curl -u jmk:YOUR_APP_PASSWORD \
 from nextcloud_deck_api import NextcloudDeckAPI
 
 api = NextcloudDeckAPI(
-    base_url="https://nx2.tcrcloud.de",
-    username="jmk",
+    base_url="https://nextcloud.example.com",
+    username="your-username",
     app_password="YOUR_APP_PASSWORD"
 )
 ```
@@ -225,7 +225,7 @@ api.assign_label(
 
 ## 📊 Your Current Board
 
-**Board URL**: https://nx2.tcrcloud.de/apps/deck/board/155
+**Board URL**: https://nextcloud.example.com/apps/deck/board/155
 
 **Board ID**: `155`
 

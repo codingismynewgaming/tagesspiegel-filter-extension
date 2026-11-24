@@ -14,7 +14,7 @@ const TARGET_URL = 'https://www.tagesspiegel.de/politik/merz-zeichnet-ein-falsch
 
   console.log('📸 Taking full page screenshot...');
   await page.screenshot({ 
-    path: 'D:\\personaldata\\vibe-coding-projekte\\tagesspiegel-extension\\internals\\article-full.png', 
+    path: './internals/article-full.png', 
     fullPage: true 
   });
 
@@ -28,7 +28,7 @@ const TARGET_URL = 'https://www.tagesspiegel.de/politik/merz-zeichnet-ein-falsch
   await page.waitForTimeout(2000);
 
   await page.screenshot({ 
-    path: 'D:\\personaldata\\vibe-coding-projekte\\tagesspiegel-extension\\internals\\article-bottom.png'
+    path: './internals/article-bottom.png'
   });
 
   // Search for comment-related elements
@@ -230,7 +230,7 @@ const TARGET_URL = 'https://www.tagesspiegel.de/politik/merz-zeichnet-ein-falsch
   const pageHtml = await page.content();
   const fs = require('fs');
   fs.writeFileSync(
-    'D:\\personaldata\\vibe-coding-projekte\\tagesspiegel-extension\\internals\\page-source.html',
+    './internals/page-source.html',
     pageHtml,
     'utf8'
   );

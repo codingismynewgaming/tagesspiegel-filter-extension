@@ -29,7 +29,7 @@ class NextcloudDeckAPI:
         Initialize the API client
         
         Args:
-            base_url: Nextcloud base URL (e.g., https://nx2.tcrcloud.de)
+            base_url: Nextcloud base URL (e.g., https://nextcloud.example.com)
             username: Nextcloud username
             app_password: App password from Nextcloud settings
         """

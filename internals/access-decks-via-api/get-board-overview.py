@@ -6,14 +6,15 @@ Usage:
     python get-board-overview.py
 """
 
+import os
 import requests
 import json
 from datetime import datetime
 
 CONFIG = {
-    "nextcloud_url": "https://nx2.tcrcloud.de",
-    "username": "kuehn-2681",
-    "app_password": "Qbzwc-8Zknd-pSkTY-KXyYG-bDdg8"
+    "nextcloud_url": os.environ.get("NEXTCLOUD_URL", "https://nextcloud.example.com"),
+    "username": os.environ.get("NEXTCLOUD_USERNAME", "your-username"),
+    "app_password": os.environ.get("NEXTCLOUD_APP_PASSWORD", "")
 }
 
 BOARD_ID = 155
@@ -29,7 +30,7 @@ def main():
     print("📊 Nextcloud Deck Board Overview")
     print("=" * 70)
     print(f"Board: 📰 Tagesspiegel Filter Extension (ID: {BOARD_ID})")
-    print(f"URL: https://nx2.tcrcloud.de/apps/deck/board/{BOARD_ID}")
+    print(f"URL: {base_url}/apps/deck/board/{BOARD_ID}")
     print("=" * 70)
     
     # Get stacks with cards

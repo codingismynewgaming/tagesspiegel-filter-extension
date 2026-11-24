@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const htmlPath = join(__dirname, 'popup-screenshots.html');
-const outputDir = 'D:\personaldata\vibe-coding-projekte\tagesspiegel-extension\chrome\marketing\screenshots'.replace(/\\\\/g, '/');
+const outputDir = './chrome/marketing/screenshots';
 
 (async () => {
   const browser = await chromium.launch({ 

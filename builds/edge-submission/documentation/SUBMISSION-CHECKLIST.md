@@ -104,7 +104,7 @@ npx playwright install chromium
 
 - Extension version: 1.0.2
 - Build date: 2026-03-17
-- Package location: D:\personaldata\vibe-coding-projekte\tagesspiegel-extension\builds\edge-submission
+- Package location: ./builds\edge-submission
 - ZIP file size: 25.4365234375 KB
 
 ---

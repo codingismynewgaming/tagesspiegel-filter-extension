@@ -3,7 +3,7 @@
     {
       "id": 1,
       "title": "Willkommen bei Nextcloud Deck!",
-      "owner": "jmk",
+      "owner": "your-username",
       "color": "bf678b",
       "archived": false,
       "labels": [
@@ -79,9 +79,9 @@
               "attachments": null,
               "attachmentCount": null,
               "owner": {
-                "primaryKey": "jmk",
-                "uid": "jmk",
-                "displayname": "jmk",
+                "primaryKey": "your-username",
+                "uid": "your-username",
+                "displayname": "your-username",
                 "type": 0
               },
               "order": 0,
@@ -122,9 +122,9 @@
               "attachments": null,
               "attachmentCount": null,
               "owner": {
-                "primaryKey": "jmk",
-                "uid": "jmk",
-                "displayname": "jmk",
+                "primaryKey": "your-username",
+                "uid": "your-username",
+                "displayname": "your-username",
                 "type": 0
               },
               "order": 0,
@@ -154,9 +154,9 @@
               "attachments": null,
               "attachmentCount": null,
               "owner": {
-                "primaryKey": "jmk",
-                "uid": "jmk",
-                "displayname": "jmk",
+                "primaryKey": "your-username",
+                "uid": "your-username",
+                "displayname": "your-username",
                 "type": 0
               },
               "order": 1,
@@ -197,9 +197,9 @@
               "attachments": null,
               "attachmentCount": null,
               "owner": {
-                "primaryKey": "jmk",
-                "uid": "jmk",
-                "displayname": "jmk",
+                "primaryKey": "your-username",
+                "uid": "your-username",
+                "displayname": "your-username",
                 "type": 0
               },
               "order": 0,
@@ -240,9 +240,9 @@
               "attachments": null,
               "attachmentCount": null,
               "owner": {
-                "primaryKey": "jmk",
-                "uid": "jmk",
-                "displayname": "jmk",
+                "primaryKey": "your-username",
+                "uid": "your-username",
+                "displayname": "your-username",
                 "type": 0
               },
               "order": 0,

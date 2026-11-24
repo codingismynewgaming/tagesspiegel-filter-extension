@@ -9,13 +9,14 @@ Usage:
     python update-card-titles.py
 """
 
+import os
 import requests
 import re
 
 CONFIG = {
-    "nextcloud_url": "https://nx2.tcrcloud.de",
-    "username": "kuehn-2681",
-    "app_password": "Qbzwc-8Zknd-pSkTY-KXyYG-bDdg8"
+    "nextcloud_url": os.environ.get("NEXTCLOUD_URL", "https://nextcloud.example.com"),
+    "username": os.environ.get("NEXTCLOUD_USERNAME", "your-username"),
+    "app_password": os.environ.get("NEXTCLOUD_APP_PASSWORD", "")
 }
 
 BOARD_ID = 155

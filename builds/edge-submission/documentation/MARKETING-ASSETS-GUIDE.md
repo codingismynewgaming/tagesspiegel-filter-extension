@@ -7,7 +7,7 @@
 This submission package contains the following assets:
 
 ### Extension Package
-- [x] tagesspiegel-filter-edge-v1.0.2.zip (Main extension ZIP - D:\personaldata\vibe-coding-projekte\tagesspiegel-extension\builds\edge-submission\tagesspiegel-filter-edge-v1.0.2.zip.Length / 1KB KB)
+- [x] tagesspiegel-filter-edge-v1.0.2.zip (Main extension ZIP - ./builds\edge-submission\tagesspiegel-filter-edge-v1.0.2.zip.Length / 1KB KB)
 
 ### Icons
 - [x] icon-16.png (16x16px) - Toolbar icon

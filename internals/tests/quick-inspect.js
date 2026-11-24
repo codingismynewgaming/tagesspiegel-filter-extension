@@ -32,7 +32,7 @@ const TARGET_URL = 'https://www.tagesspiegel.de/politik/merz-zeichnet-ein-falsch
     
     // Save HTML
     const html = await page.content();
-    fs.writeFileSync('D:\\personaldata\\vibe-coding-projekte\\tagesspiegel-extension\\internals\\comments-opened.html', html);
+    fs.writeFileSync('./internals/comments-opened.html', html);
     console.log('✅ Saved HTML');
     
     // Now look for sort controls

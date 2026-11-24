@@ -259,7 +259,7 @@ Option 2: DELETE + CREATE Workaround (if acceptable)
 **Official Docs:** https://deck.readthedocs.io/en/latest/API/
 
 **Tested Endpoints:**
-- Base URL: `https://nx2.tcrcloud.de/index.php/apps/deck/api/v1.0`
+- Base URL: `https://nextcloud.example.com/index.php/apps/deck/api/v1.0`
 - Auth: HTTP Basic Auth (username:app-password)
 - Headers: `OCS-APIRequest: true`, `Content-Type: application/json`
 
